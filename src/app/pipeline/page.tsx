@@ -2,72 +2,24 @@
 
 import { useState, useMemo } from "react";
 import { mockLeads } from "@/data/mockLeads";
-import { Lead } from "@/types/lead";
+import {
+  TYPE_LABELS,
+  STATUS_LABELS,
+  STATUS_STYLES,
+  DISTRESS_FLAGS,
+  ALL_PROP_TYPES,
+  ALL_STATUSES,
+  scoreStyle,
+  needsFollowUp,
+  fmt,
+} from "@/lib/leadHelpers";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type SortKey = "motivationScore" | "equityPercent" | "city" | "address" | "status" | "assignedTo";
 type SortDir = "asc" | "desc";
 
-// ─── Display maps ─────────────────────────────────────────────────────────────
-
-const TYPE_LABELS: Record<Lead["propertyType"], string> = {
-  "single-family": "Single-Family",
-  "multi-family":  "Multi-Family",
-  "duplex":        "Duplex",
-  "triplex":       "Triplex",
-  "fourplex":      "Fourplex",
-};
-
-const STATUS_LABELS: Record<Lead["status"], string> = {
-  "new":            "New",
-  "contacted":      "Contacted",
-  "responded":      "Responded",
-  "under-contract": "Under Contract",
-  "dead":           "Dead",
-};
-
-const STATUS_STYLES: Record<Lead["status"], string> = {
-  "new":            "bg-blue-50 text-blue-700 border border-blue-200",
-  "contacted":      "bg-amber-50 text-amber-700 border border-amber-200",
-  "responded":      "bg-violet-50 text-violet-700 border border-violet-200",
-  "under-contract": "bg-green-50 text-green-700 border border-green-200",
-  "dead":           "bg-neutral-100 text-neutral-400 border border-neutral-200",
-};
-
-const DISTRESS_FLAGS: { key: keyof Lead; label: string; cls: string }[] = [
-  { key: "preForeclosure", label: "Pre-FC",      cls: "bg-red-100 text-red-700" },
-  { key: "taxDelinquent",  label: "Tax Del.",     cls: "bg-orange-100 text-orange-700" },
-  { key: "probate",        label: "Probate",      cls: "bg-purple-100 text-purple-700" },
-  { key: "codeViolations", label: "Code Viol.",   cls: "bg-amber-100 text-amber-700" },
-  { key: "vacant",         label: "Vacant",       cls: "bg-neutral-200 text-neutral-600" },
-  { key: "absenteeOwner",  label: "Absentee",     cls: "bg-sky-100 text-sky-700" },
-];
-
-const ALL_PROP_TYPES = Object.keys(TYPE_LABELS) as Lead["propertyType"][];
-const ALL_CITIES     = [...new Set(mockLeads.map((l) => l.city))].sort();
-const ALL_STATUSES   = ["new", "contacted", "responded", "under-contract", "dead"] as Lead["status"][];
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function scoreStyle(n: number) {
-  if (n >= 8) return "bg-green-100 text-green-700";
-  if (n >= 5) return "bg-amber-100 text-amber-700";
-  return "bg-red-100 text-red-700";
-}
-
-function needsFollowUp(lead: Lead): boolean {
-  if (lead.status !== "contacted" || !lead.lastContactedDate) return false;
-  const lastContact = new Date(lead.lastContactedDate);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const diffDays = (today.getTime() - lastContact.getTime()) / 86_400_000;
-  return diffDays > 7;
-}
-
-function fmt(n: number) {
-  return n.toLocaleString();
-}
+const ALL_CITIES = [...new Set(mockLeads.map((l) => l.city))].sort();
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -88,11 +40,11 @@ export default function PipelinePage() {
   // ── Stats (always computed from full dataset) ──────────────────────────────
 
   const stats = useMemo(() => {
-    const total      = mockLeads.length;
-    const hot        = mockLeads.filter((l) => l.motivationScore >= 8).length;
-    const avgScore   = mockLeads.reduce((s, l) => s + l.motivationScore, 0) / total;
-    const newCount   = mockLeads.filter((l) => l.status === "new").length;
-    const followUp   = mockLeads.filter(needsFollowUp).length;
+    const total    = mockLeads.length;
+    const hot      = mockLeads.filter((l) => l.motivationScore >= 8).length;
+    const avgScore = mockLeads.reduce((s, l) => s + l.motivationScore, 0) / total;
+    const newCount = mockLeads.filter((l) => l.status === "new").length;
+    const followUp = mockLeads.filter(needsFollowUp).length;
     return { total, hot, avgScore, newCount, followUp };
   }, []);
 
@@ -102,10 +54,10 @@ export default function PipelinePage() {
     const minS = minScore === "" ? 1 : minScore;
     return mockLeads
       .filter((l) => {
-        if (filterStatus !== "all" && l.status !== filterStatus)         return false;
-        if (filterCity   !== "all" && l.city   !== filterCity)           return false;
-        if (filterType   !== "all" && l.propertyType !== filterType)     return false;
-        if (l.motivationScore < minS)                                    return false;
+        if (filterStatus !== "all" && l.status !== filterStatus)     return false;
+        if (filterCity   !== "all" && l.city   !== filterCity)       return false;
+        if (filterType   !== "all" && l.propertyType !== filterType) return false;
+        if (l.motivationScore < minS)                                return false;
         return true;
       })
       .sort((a, b) => {
@@ -176,7 +128,7 @@ export default function PipelinePage() {
         <p className="mt-0.5 text-sm text-neutral-500">Motivated seller leads — Bay Area</p>
       </div>
 
-      {/* ── Stats summary bar ── */}
+      {/* Stats summary bar */}
       <div className="px-8 py-4 bg-white border-b border-neutral-100">
         <div className="flex items-center gap-2 flex-wrap">
           <StatPill label="Total Leads"    value={stats.total} />
@@ -191,7 +143,7 @@ export default function PipelinePage() {
         </div>
       </div>
 
-      {/* ── Filter bar ── */}
+      {/* Filter bar */}
       <div className="px-8 py-3 bg-white border-b border-neutral-100 flex flex-wrap items-center gap-3">
         <FilterSelect
           label="Status"
@@ -250,7 +202,7 @@ export default function PipelinePage() {
         </span>
       </div>
 
-      {/* ── Table ── */}
+      {/* Table */}
       <div className="flex-1 overflow-x-auto px-8 py-5">
         <table className="w-full text-sm border-separate border-spacing-0">
           <thead>
@@ -363,10 +315,9 @@ export default function PipelinePage() {
                     <tr key={`${lead.id}-detail`}>
                       <td
                         colSpan={9}
-                        className={`border-b border-r border-l border-neutral-200 border-l-amber-300 bg-amber-50/20 px-6 pt-3 pb-5 ${isLast ? "rounded-b-lg" : ""}`}
+                        className={`border-b border-r border-l border-neutral-200 bg-amber-50/20 px-6 pt-3 pb-5 ${isLast ? "rounded-b-lg" : ""}`}
                         style={{ borderLeftWidth: "3px", borderLeftColor: followUp ? "#f59e0b" : "#e5e7eb" }}
                       >
-                        {/* Follow-up callout */}
                         {followUp && (
                           <div className="mb-4 flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-md px-3 py-2.5 text-sm text-amber-800">
                             <span className="mt-px">⏰</span>
@@ -430,7 +381,7 @@ export default function PipelinePage() {
   );
 }
 
-// ─── Shared UI atoms ──────────────────────────────────────────────────────────
+// ─── UI atoms ─────────────────────────────────────────────────────────────────
 
 function StatPill({
   label,
