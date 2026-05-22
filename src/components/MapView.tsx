@@ -16,8 +16,7 @@ interface MapViewProps {
   leads: Lead[];
 }
 
-// Bay Area center — fits Vallejo down to Hayward/Antioch at zoom 10
-const BAY_AREA_CENTER: [number, number] = [37.92, -122.10];
+const BAY_AREA_CENTER: [number, number] = [37.92, -122.1];
 const DEFAULT_ZOOM = 10;
 
 export default function MapView({ leads }: MapViewProps) {
@@ -45,18 +44,18 @@ export default function MapView({ leads }: MapViewProps) {
             pathOptions={{
               fillColor:   color,
               color:       "#fff",
-              weight:      1.5,
+              weight:      2,
               opacity:     1,
               fillOpacity: 0.88,
             }}
           >
             <Popup minWidth={240} maxWidth={300}>
-              <div className="text-sm font-sans">
+              <div style={{ fontFamily: "sans-serif", fontSize: "13px" }}>
                 {/* Address + score */}
-                <div className="flex items-start justify-between gap-3 mb-2">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px", marginBottom: "8px" }}>
                   <div>
-                    <p className="font-semibold text-neutral-900 leading-snug">{lead.address}</p>
-                    <p className="text-neutral-500 text-xs mt-0.5">{lead.city}, {lead.zip}</p>
+                    <p style={{ margin: 0, fontWeight: 600, color: "#111827" }}>{lead.address}</p>
+                    <p style={{ margin: "2px 0 0", fontSize: "11px", color: "#6b7280" }}>{lead.city}, {lead.zip}</p>
                   </div>
                   <span className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded tabular-nums ${scoreStyle(lead.motivationScore)}`}>
                     {lead.motivationScore}
@@ -64,15 +63,15 @@ export default function MapView({ leads }: MapViewProps) {
                 </div>
 
                 {/* Key facts */}
-                <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-neutral-600 mb-2">
-                  <span><span className="text-neutral-400">Type</span> {TYPE_LABELS[lead.propertyType]}</span>
-                  <span><span className="text-neutral-400">Units</span> {lead.units}</span>
-                  <span><span className="text-neutral-400">Equity</span> {lead.equityPercent}%</span>
-                  <span><span className="text-neutral-400">Est. Value</span> ${lead.estimatedValue.toLocaleString()}</span>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px 12px", fontSize: "11px", color: "#374151", marginBottom: "8px" }}>
+                  <span><span style={{ color: "#9ca3af" }}>Type </span>{TYPE_LABELS[lead.propertyType]}</span>
+                  <span><span style={{ color: "#9ca3af" }}>Units </span>{lead.units}</span>
+                  <span><span style={{ color: "#9ca3af" }}>Equity </span>{lead.equityPercent}%</span>
+                  <span><span style={{ color: "#9ca3af" }}>Est. Value </span>${lead.estimatedValue.toLocaleString()}</span>
                 </div>
 
                 {/* Status */}
-                <div className="mb-2">
+                <div style={{ marginBottom: "6px" }}>
                   <span className={`inline-block text-xs px-2 py-0.5 rounded-full ${STATUS_STYLES[lead.status]}`}>
                     {STATUS_LABELS[lead.status]}
                   </span>
@@ -80,7 +79,7 @@ export default function MapView({ leads }: MapViewProps) {
 
                 {/* Distress badges */}
                 {signals.length > 0 && (
-                  <div className="flex flex-wrap gap-1 pt-2 border-t border-neutral-100">
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", paddingTop: "8px", borderTop: "1px solid #f3f4f6" }}>
                     {signals.map((s) => (
                       <span
                         key={s.key as string}
