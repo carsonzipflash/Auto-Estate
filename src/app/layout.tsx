@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-neutral-50 text-neutral-900`}>
+      <body className={`${inter.className} antialiased bg-white text-[#1a1a1a]`}>
         <div className="flex min-h-screen">
           <Sidebar />
           <div className="flex-1 flex flex-col">{children}</div>

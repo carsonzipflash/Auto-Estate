@@ -22,7 +22,7 @@ export const STATUS_STYLES: Record<Lead["status"], string> = {
   "new":            "bg-blue-50 text-blue-700 border border-blue-200",
   "contacted":      "bg-amber-50 text-amber-700 border border-amber-200",
   "responded":      "bg-violet-50 text-violet-700 border border-violet-200",
-  "under-contract": "bg-green-50 text-green-700 border border-green-200",
+  "under-contract": "bg-[#dfe9e5] text-[#085e2d] border border-[#b3d1c4]",
   "dead":           "bg-neutral-100 text-neutral-400 border border-neutral-200",
 };
 
@@ -50,7 +50,7 @@ export const ALL_STATUSES = [
 // ─── Utility functions ────────────────────────────────────────────────────────
 
 export function scoreStyle(n: number): string {
-  if (n >= 8) return "bg-green-100 text-green-700";
+  if (n >= 8) return "bg-[#dfe9e5] text-[#085e2d]";
   if (n >= 5) return "bg-amber-100 text-amber-700";
   return "bg-red-100 text-red-700";
 }

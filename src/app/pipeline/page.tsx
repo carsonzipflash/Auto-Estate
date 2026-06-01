@@ -120,7 +120,7 @@ export default function PipelinePage() {
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
-    <div className="flex flex-col min-h-full bg-neutral-50">
+    <div className="flex flex-col min-h-full bg-[#f4f5f7]">
 
       {/* Page heading */}
       <div className="px-8 pt-8 pb-5 bg-white border-b border-neutral-200">
@@ -184,7 +184,7 @@ export default function PipelinePage() {
             onChange={(e) =>
               setMinScore(e.target.value === "" ? "" : Math.max(1, Math.min(10, Number(e.target.value))))
             }
-            className="w-14 text-sm border border-neutral-200 rounded-md px-2 py-1.5 text-neutral-700 bg-white placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-300 tabular-nums"
+            className="w-14 text-sm border border-neutral-200 rounded-md px-2 py-1.5 text-neutral-700 bg-white placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#085e2d]/30 tabular-nums"
           />
         </div>
 
@@ -207,31 +207,31 @@ export default function PipelinePage() {
         <table className="w-full text-sm border-separate border-spacing-0">
           <thead>
             <tr>
-              <th className="text-left px-3 py-2.5 bg-neutral-100/70 border-y border-l border-neutral-200 rounded-tl-lg">
+              <th className="text-left px-3 py-2.5 bg-[#f4f5f7] border-y border-l border-neutral-200 rounded-tl-lg">
                 <ColHeader label="Address" k="address" />
               </th>
-              <th className="text-left px-3 py-2.5 bg-neutral-100/70 border-y border-neutral-200">
+              <th className="text-left px-3 py-2.5 bg-[#f4f5f7] border-y border-neutral-200">
                 <ColHeader label="City" k="city" />
               </th>
-              <th className="text-left px-3 py-2.5 bg-neutral-100/70 border-y border-neutral-200">
+              <th className="text-left px-3 py-2.5 bg-[#f4f5f7] border-y border-neutral-200">
                 <StaticHeader label="Type" />
               </th>
-              <th className="text-left px-3 py-2.5 bg-neutral-100/70 border-y border-neutral-200">
+              <th className="text-left px-3 py-2.5 bg-[#f4f5f7] border-y border-neutral-200">
                 <StaticHeader label="Units" />
               </th>
-              <th className="text-left px-3 py-2.5 bg-neutral-100/70 border-y border-neutral-200">
+              <th className="text-left px-3 py-2.5 bg-[#f4f5f7] border-y border-neutral-200">
                 <ColHeader label="Equity %" k="equityPercent" />
               </th>
-              <th className="text-left px-3 py-2.5 bg-neutral-100/70 border-y border-neutral-200">
+              <th className="text-left px-3 py-2.5 bg-[#f4f5f7] border-y border-neutral-200">
                 <StaticHeader label="Distress" />
               </th>
-              <th className="text-left px-3 py-2.5 bg-neutral-100/70 border-y border-neutral-200">
+              <th className="text-left px-3 py-2.5 bg-[#f4f5f7] border-y border-neutral-200">
                 <ColHeader label="Score" k="motivationScore" />
               </th>
-              <th className="text-left px-3 py-2.5 bg-neutral-100/70 border-y border-neutral-200">
+              <th className="text-left px-3 py-2.5 bg-[#f4f5f7] border-y border-neutral-200">
                 <ColHeader label="Status" k="status" />
               </th>
-              <th className="text-left px-3 py-2.5 bg-neutral-100/70 border-y border-r border-neutral-200 rounded-tr-lg">
+              <th className="text-left px-3 py-2.5 bg-[#f4f5f7] border-y border-r border-neutral-200 rounded-tr-lg">
                 <ColHeader label="Assigned" k="assignedTo" />
               </th>
             </tr>
@@ -261,7 +261,7 @@ export default function PipelinePage() {
                     key={lead.id}
                     onClick={() => setExpandedId(expanded ? null : lead.id)}
                     className={`cursor-pointer group transition-colors ${
-                      expanded ? "bg-white" : "bg-white hover:bg-neutral-50"
+                      expanded ? "bg-white" : "bg-white hover:bg-[#f4f5f7]"
                     }`}
                   >
                     <td className={`px-3 py-2.5 font-medium text-neutral-800 border-b border-l ${rowBorderB} border-neutral-200 ${isLast && !expanded ? "rounded-bl-lg" : ""}`}>
@@ -395,7 +395,7 @@ function StatPill({
   note?: string;
 }) {
   const valueClass =
-    accent === "green" ? "text-green-700" :
+    accent === "green" ? "text-[#085e2d]" :
     accent === "amber" ? "text-amber-600" :
     "text-neutral-900";
 
@@ -429,7 +429,7 @@ function FilterSelect({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="text-sm border border-neutral-200 rounded-md px-2.5 py-1.5 text-neutral-700 bg-white focus:outline-none focus:ring-2 focus:ring-neutral-300"
+        className="text-sm border border-neutral-200 rounded-md px-2.5 py-1.5 text-neutral-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#085e2d]/30"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>{o.label}</option>

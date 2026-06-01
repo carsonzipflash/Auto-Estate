@@ -112,7 +112,7 @@ export default function MapPage() {
                     : Math.max(1, Math.min(10, Number(e.target.value)))
                 )
               }
-              className="w-full text-sm border border-neutral-200 rounded-md px-2.5 py-1.5 text-neutral-700 bg-white placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-300 tabular-nums"
+              className="w-full text-sm border border-neutral-200 rounded-md px-2.5 py-1.5 text-neutral-700 bg-white placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#085e2d]/30 tabular-nums"
             />
           </div>
 
@@ -167,7 +167,7 @@ function PanelFilter({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full text-sm border border-neutral-200 rounded-md px-2.5 py-1.5 text-neutral-700 bg-white focus:outline-none focus:ring-2 focus:ring-neutral-300"
+        className="w-full text-sm border border-neutral-200 rounded-md px-2.5 py-1.5 text-neutral-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#085e2d]/30"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>{o.label}</option>

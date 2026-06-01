@@ -37,17 +37,17 @@ const modules = [
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
 function scoreBadge(n: number) {
-  if (n >= 8) return "bg-emerald-900 text-emerald-300 border border-emerald-700";
-  if (n >= 5) return "bg-amber-900 text-amber-300 border border-amber-700";
-  return "bg-red-900 text-red-300 border border-red-800";
+  if (n >= 8) return "bg-[#dfe9e5] text-[#085e2d] border border-[#b3d1c4]";
+  if (n >= 5) return "bg-amber-100 text-amber-700 border border-amber-200";
+  return "bg-red-100 text-red-700 border border-red-200";
 }
 
 const STATUS_DARK: Record<Lead["status"], string> = {
-  "new":            "bg-sky-900/60 text-sky-300",
-  "contacted":      "bg-amber-900/60 text-amber-300",
-  "responded":      "bg-violet-900/60 text-violet-300",
-  "under-contract": "bg-emerald-900/60 text-emerald-300",
-  "dead":           "bg-slate-800 text-slate-500",
+  "new":            "bg-sky-100 text-sky-700",
+  "contacted":      "bg-amber-100 text-amber-700",
+  "responded":      "bg-violet-100 text-violet-700",
+  "under-contract": "bg-[#dfe9e5] text-[#085e2d]",
+  "dead":           "bg-neutral-100 text-neutral-400",
 };
 
 const STATUS_LABEL: Record<Lead["status"], string> = {
@@ -65,12 +65,12 @@ function BigStat({
 }: {
   label: string; value: string | number; sub?: string; accent?: boolean; warn?: boolean;
 }) {
-  const color = accent ? "text-emerald-400" : warn ? "text-amber-400" : "text-slate-100";
+  const color = accent ? "text-[#085e2d]" : warn ? "text-amber-600" : "text-[#1a1a1a]";
   return (
-    <div className="rounded-xl border border-slate-700 bg-slate-900 px-6 py-5">
-      <p className="text-xs text-slate-400 uppercase tracking-wider mb-2">{label}</p>
-      <p className={`text-4xl font-bold ${color}`}>{value}</p>
-      {sub && <p className="text-xs text-slate-500 mt-1">{sub}</p>}
+    <div className="rounded-xl border border-[#e5e5e5] bg-white px-6 py-5">
+      <p className="text-xs text-[#666666] uppercase tracking-wider mb-2">{label}</p>
+      <p className={`text-4xl font-bold font-mono ${color}`}>{value}</p>
+      {sub && <p className="text-xs text-[#999999] mt-1">{sub}</p>}
     </div>
   );
 }
@@ -83,25 +83,25 @@ export default function DashboardPage() {
   });
 
   return (
-    <main className="flex-1 min-h-screen bg-[#0F0F0F] text-slate-100 p-8">
+    <main className="flex-1 min-h-screen bg-[#f4f5f7] text-[#1a1a1a] p-8">
       <div className="max-w-6xl mx-auto space-y-8">
 
         {/* Header */}
         <div className="flex items-end justify-between">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-            <p className="mt-1 text-sm text-slate-400">{today}</p>
+            <p className="mt-1 text-sm text-[#666666]">{today}</p>
           </div>
           <Link
             href="/pipeline"
-            className="px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition"
+            className="px-4 py-2 rounded-md bg-[#085e2d] hover:bg-[#064d24] text-white text-sm font-medium transition"
           >
             View Pipeline →
           </Link>
         </div>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 [&>*]:bg-white [&>*]:border-[#e5e5e5]">
           <BigStat label="Total Leads" value={total} sub="across all statuses" />
           <BigStat label="Hot Leads" value={hot} sub="motivation score ≥ 8" accent />
           <BigStat label="Under Contract" value={underContract} sub="active PSAs" accent />
@@ -112,26 +112,26 @@ export default function DashboardPage() {
         <div className="grid grid-cols-5 gap-6">
 
           {/* Left — Top Priority Leads */}
-          <div className="col-span-3 rounded-xl border border-slate-700 bg-slate-900 overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">
+          <div className="col-span-3 rounded-xl border border-[#e5e5e5] bg-white overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#e5e5e5] flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-[#666666] uppercase tracking-wider">
                 Top Priority Leads
               </h2>
-              <Link href="/pipeline" className="text-xs text-emerald-500 hover:text-emerald-400 transition">
+              <Link href="/pipeline" className="text-xs text-[#085e2d] hover:text-[#064d24] transition">
                 View all →
               </Link>
             </div>
-            <div className="divide-y divide-slate-800">
+            <div className="divide-y divide-[#e5e5e5]">
               {topLeads.map((lead) => (
                 <div key={lead.id} className="px-6 py-3.5 flex items-center gap-4">
-                  <span className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${scoreBadge(lead.motivationScore)}`}>
+                  <span className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold font-mono ${scoreBadge(lead.motivationScore)}`}>
                     {lead.motivationScore}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-slate-100 font-medium truncate">{lead.address}</p>
-                    <p className="text-xs text-slate-400">{lead.city} · {TYPE_LABELS[lead.propertyType]}</p>
+                    <p className="text-sm text-[#1a1a1a] font-medium truncate">{lead.address}</p>
+                    <p className="text-xs text-[#666666]">{lead.city} · {TYPE_LABELS[lead.propertyType]}</p>
                   </div>
-                  <p className="text-xs text-slate-400 hidden sm:block w-32 truncate">{lead.ownerName}</p>
+                  <p className="text-xs text-[#666666] hidden sm:block w-32 truncate">{lead.ownerName}</p>
                   <span className={`shrink-0 text-xs px-2 py-0.5 rounded-md font-medium ${STATUS_DARK[lead.status]}`}>
                     {STATUS_LABEL[lead.status]}
                   </span>
@@ -144,42 +144,42 @@ export default function DashboardPage() {
           <div className="col-span-2 flex flex-col gap-6">
 
             {/* Pipeline Status */}
-            <div className="rounded-xl border border-slate-700 bg-slate-900 p-5 space-y-4">
+            <div className="rounded-xl border border-[#e5e5e5] bg-white p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">Pipeline</h2>
-                <span className="text-xs text-slate-500">avg score {avgScore}</span>
+                <h2 className="text-sm font-semibold text-[#666666] uppercase tracking-wider">Pipeline</h2>
+                <span className="text-xs text-[#999999] font-mono">avg score {avgScore}</span>
               </div>
               <div className="space-y-3">
                 {statusCounts.map(({ label, color, count }) => (
                   <div key={label} className="flex items-center gap-3">
                     <div className="flex items-center gap-2 w-32">
                       <div className={`w-2 h-2 rounded-full shrink-0 ${color}`} />
-                      <span className="text-xs text-slate-400">{label}</span>
+                      <span className="text-xs text-[#666666]">{label}</span>
                     </div>
-                    <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div className="flex-1 h-1.5 bg-[#e5e5e5] rounded-full overflow-hidden">
                       <div className={`h-full rounded-full ${color}`} style={{ width: `${(count / total) * 100}%` }} />
                     </div>
-                    <span className="text-xs text-slate-300 w-4 text-right shrink-0">{count}</span>
+                    <span className="text-xs text-[#1a1a1a] font-mono w-4 text-right shrink-0">{count}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Module Quick Links */}
-            <div className="rounded-xl border border-slate-700 bg-slate-900 p-5 space-y-3">
-              <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">Modules</h2>
+            <div className="rounded-xl border border-[#e5e5e5] bg-white p-5 space-y-3">
+              <h2 className="text-sm font-semibold text-[#666666] uppercase tracking-wider">Modules</h2>
               <div className="space-y-2">
                 {modules.map(({ href, label, desc }) => (
                   <Link
                     key={href}
                     href={href}
-                    className="flex items-center justify-between rounded-lg border border-slate-700 hover:border-emerald-700 bg-slate-800 px-4 py-3 group transition"
+                    className="flex items-center justify-between rounded-lg border border-[#e5e5e5] hover:border-[#085e2d] bg-[#f4f5f7] px-4 py-3 group transition"
                   >
                     <div>
-                      <p className="text-sm text-slate-100 font-medium group-hover:text-emerald-400 transition">{label}</p>
-                      <p className="text-xs text-slate-400">{desc}</p>
+                      <p className="text-sm text-[#1a1a1a] font-medium group-hover:text-[#085e2d] transition">{label}</p>
+                      <p className="text-xs text-[#666666]">{desc}</p>
                     </div>
-                    <span className="text-slate-600 group-hover:text-emerald-500 transition">→</span>
+                    <span className="text-[#999999] group-hover:text-[#085e2d] transition">→</span>
                   </Link>
                 ))}
               </div>
