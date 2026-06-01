@@ -17,9 +17,9 @@ const parse = (s: string) => {
 
 function StatCard({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
-    <div className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 flex flex-col gap-1">
-      <span className="text-xs text-slate-400 uppercase tracking-wider">{label}</span>
-      <span className={`text-lg font-semibold ${accent ? "text-emerald-400" : "text-slate-100"}`}>
+    <div className="rounded-md border border-[#e5e5e5] bg-[#f4f5f7] px-4 py-3 flex flex-col gap-1 shadow-sm">
+      <span className="text-xs text-[#666666] uppercase tracking-wider">{label}</span>
+      <span className={`text-sm font-mono font-medium ${accent ? "text-[#085e2d]" : "text-[#1a1a1a]"}`}>
         {value}
       </span>
     </div>
@@ -42,16 +42,16 @@ function InputField({
   suffix?: string;
 }) {
   return (
-    <div className="flex flex-col gap-1">
-      <label className="text-xs text-slate-400 uppercase tracking-wider">{label}</label>
+    <div className="flex flex-col gap-1.5">
+      <label className="text-xs text-[#666666] uppercase tracking-wider">{label}</label>
       <div className="relative">
         {prefix && (
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666] text-sm">
             {prefix}
           </span>
         )}
         {suffix && (
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] text-sm">
             {suffix}
           </span>
         )}
@@ -60,10 +60,12 @@ function InputField({
           readOnly={readOnly}
           value={value}
           onChange={(e) => onChange?.(e.target.value)}
-          className={`w-full rounded-md border bg-slate-800 px-3 py-2 text-sm text-slate-100 outline-none transition
+          className={`w-full rounded-md border bg-[#f4f5f7] px-3 py-2 text-sm font-mono outline-none transition
             ${prefix ? "pl-7" : ""}
             ${suffix ? "pr-7" : ""}
-            ${readOnly ? "border-slate-700 text-slate-400 cursor-default" : "border-slate-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"}`}
+            ${readOnly
+              ? "border-[#e5e5e5] text-[#999999] cursor-default"
+              : "border-[#e5e5e5] text-[#1a1a1a] focus:border-[#085e2d] focus:ring-1 focus:ring-[#085e2d] focus:bg-white"}`}
         />
       </div>
     </div>
@@ -71,52 +73,52 @@ function InputField({
 }
 
 const BADGE = {
-  pursue: "bg-emerald-900 text-emerald-300 border border-emerald-700",
-  negotiate: "bg-amber-900 text-amber-300 border border-amber-700",
-  pass: "bg-red-900 text-red-300 border border-red-800",
+  pursue:    "bg-[#dfe9e5] text-[#085e2d] border border-[#085e2d]",
+  negotiate: "bg-[#fef3c7] text-[#f59e0b] border border-[#f59e0b]",
+  pass:      "bg-[#fee2e2] text-[#dc2626] border border-[#dc2626]",
 };
 const BADGE_LABEL = { pursue: "Pursue", negotiate: "Negotiate", pass: "Pass" };
 
 function AnalysisPanel({ analysis, label }: { analysis: DealAnalysis; label?: string }) {
   return (
-    <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 space-y-5">
+    <div className="rounded-lg border border-[#e5e5e5] bg-white p-6 space-y-5 shadow-sm">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
-          <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">
+          <h2 className="text-xs font-bold text-[#1a1a1a] uppercase tracking-wider">
             {label ?? "AI Analysis"}
           </h2>
           <span className={`text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider ${BADGE[analysis.recommendation]}`}>
             {BADGE_LABEL[analysis.recommendation]}
           </span>
         </div>
-        <span className="text-xs text-slate-500">claude-haiku</span>
+        <span className="text-xs text-[#999999]">claude-haiku</span>
       </div>
-      <p className="text-slate-100 font-medium leading-snug">{analysis.verdict}</p>
+      <p className="text-sm text-[#1a1a1a] font-medium leading-snug">{analysis.verdict}</p>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <p className="text-xs text-emerald-500 uppercase tracking-wider font-semibold">Strengths</p>
+          <p className="text-xs font-bold text-[#085e2d] uppercase tracking-wider">Strengths</p>
           <ul className="space-y-1.5">
             {analysis.strengths.map((s, i) => (
-              <li key={i} className="flex gap-2 text-sm text-slate-300">
-                <span className="text-emerald-500 shrink-0 mt-0.5">+</span>
+              <li key={i} className="flex gap-2 text-sm text-[#1a1a1a]">
+                <span className="text-[#085e2d] shrink-0 mt-0.5">+</span>
                 {s}
               </li>
             ))}
           </ul>
         </div>
         <div className="space-y-2">
-          <p className="text-xs text-red-500 uppercase tracking-wider font-semibold">Risks</p>
+          <p className="text-xs font-bold text-[#dc2626] uppercase tracking-wider">Risks</p>
           <ul className="space-y-1.5">
             {analysis.risks.map((r, i) => (
-              <li key={i} className="flex gap-2 text-sm text-slate-300">
-                <span className="text-red-500 shrink-0 mt-0.5">−</span>
+              <li key={i} className="flex gap-2 text-sm text-[#1a1a1a]">
+                <span className="text-[#dc2626] shrink-0 mt-0.5">−</span>
                 {r}
               </li>
             ))}
           </ul>
         </div>
       </div>
-      <p className="text-sm text-slate-400 leading-relaxed border-t border-slate-800 pt-4">
+      <p className="text-sm text-[#666666] leading-relaxed border-t border-[#e5e5e5] pt-4">
         {analysis.commentary}
       </p>
     </div>
@@ -139,8 +141,10 @@ function AnalyzeButton({
     <button
       onClick={onClick}
       disabled={!active}
-      className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition
-        ${active ? "bg-emerald-600 hover:bg-emerald-500 text-white cursor-pointer" : "bg-slate-700 text-slate-500 cursor-not-allowed"}`}
+      className={`flex items-center gap-2 px-4 py-2.5 rounded-md text-sm font-medium transition
+        ${active
+          ? "bg-[#085e2d] hover:bg-[#064b23] text-white cursor-pointer"
+          : "bg-[#e5e5e5] text-[#999999] cursor-not-allowed"}`}
     >
       {loading ? (
         <>
@@ -169,15 +173,15 @@ function LeadPicker({
   onClear: () => void;
 }) {
   return (
-    <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 space-y-4">
-      <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">
+    <div className="rounded-lg border border-[#e5e5e5] bg-white p-6 space-y-4 shadow-sm">
+      <h2 className="text-xs font-bold text-[#1a1a1a] uppercase tracking-wider">
         Load from Pipeline
       </h2>
       <div className="flex gap-3 items-center">
         <select
           value={value}
           onChange={(e) => onSelect(e.target.value)}
-          className="flex-1 rounded-md border border-slate-600 bg-slate-800 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none"
+          className="flex-1 rounded-md border border-[#e5e5e5] bg-[#f4f5f7] px-3 py-2 text-sm text-[#1a1a1a] focus:border-[#085e2d] focus:ring-1 focus:ring-[#085e2d] focus:bg-white outline-none transition"
         >
           <option value="">— Select a lead —</option>
           {leads.map((l) => (
@@ -189,7 +193,7 @@ function LeadPicker({
         {value && (
           <button
             onClick={onClear}
-            className="px-3 py-2 rounded-md border border-slate-600 text-xs text-slate-400 hover:border-slate-500 hover:text-slate-200 transition"
+            className="px-3 py-2 rounded-md border border-[#e5e5e5] text-sm text-[#1a1a1a] hover:bg-[#f4f5f7] transition"
           >
             Clear
           </button>
@@ -201,22 +205,22 @@ function LeadPicker({
 
 function CompRow({ lead }: { lead: Lead }) {
   return (
-    <div className="py-3 grid grid-cols-4 gap-4 text-sm">
+    <div className="py-4 grid grid-cols-4 gap-4 text-sm">
       <div>
-        <p className="text-slate-100 font-medium">{lead.address}</p>
-        <p className="text-xs text-slate-400">{lead.city}, {lead.zip}</p>
+        <p className="text-[#1a1a1a] font-medium">{lead.address}</p>
+        <p className="text-xs text-[#666666]">{lead.city}, {lead.zip}</p>
       </div>
       <div>
-        <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Est. Value</p>
-        <p className="text-slate-100">{fmt(lead.estimatedValue)}</p>
+        <p className="text-xs text-[#666666] uppercase tracking-wider mb-0.5">Est. Value</p>
+        <p className="text-[#1a1a1a] font-mono">{fmt(lead.estimatedValue)}</p>
       </div>
       <div>
-        <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Last Sale</p>
-        <p className="text-slate-100">{fmt(lead.lastSalePrice)}</p>
+        <p className="text-xs text-[#666666] uppercase tracking-wider mb-0.5">Last Sale</p>
+        <p className="text-[#1a1a1a] font-mono">{fmt(lead.lastSalePrice)}</p>
       </div>
       <div>
-        <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Equity</p>
-        <p className="text-emerald-400">{lead.equityPercent}%</p>
+        <p className="text-xs text-[#666666] uppercase tracking-wider mb-0.5">Equity</p>
+        <p className="text-[#085e2d] font-mono">{lead.equityPercent}%</p>
       </div>
     </div>
   );
@@ -329,8 +333,8 @@ function SfrMode() {
       <LeadPicker leads={sfrLeads} value={selectedLeadId} onSelect={selectLead} onClear={clearLead} />
 
       {/* Inputs */}
-      <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 space-y-5">
-        <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">Deal Inputs</h2>
+      <div className="rounded-lg border border-[#e5e5e5] bg-white p-6 space-y-5 shadow-sm">
+        <h2 className="text-xs font-bold text-[#1a1a1a] uppercase tracking-wider">Deal Inputs</h2>
         <InputField label="Property Address" value={address} onChange={selectedLeadId ? undefined : setAddress} readOnly={!!selectedLeadId} />
         <div className="grid grid-cols-2 gap-4">
           <InputField label="ARV (After Repair Value)" value={arv} onChange={setArv} prefix="$" />
@@ -341,17 +345,17 @@ function SfrMode() {
       </div>
 
       {/* MAO */}
-      <div className="rounded-xl border border-emerald-800 bg-slate-900 p-6">
+      <div className="rounded-lg border-2 border-[#085e2d] bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Maximum Allowed Offer</p>
-            <p className="text-xs text-slate-500 mb-3">Formula: (ARV × 70%) − Repairs − Wholesaler Fee</p>
-            <p className={`text-4xl font-bold ${mao >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+            <p className="text-xs text-[#666666] uppercase tracking-wider mb-1">Maximum Allowed Offer</p>
+            <p className="text-xs text-[#666666] mb-3">Formula: (ARV × 70%) − Repairs − Wholesaler Fee</p>
+            <p className={`text-4xl font-mono font-bold ${mao >= 0 ? "text-[#085e2d]" : "text-[#dc2626]"}`}>
               {arvNum > 0 ? fmt(mao) : "—"}
             </p>
           </div>
           <div className="flex flex-col items-end gap-4">
-            <div className="text-right text-xs text-slate-500 space-y-1">
+            <div className="text-right text-xs text-[#666666] font-mono space-y-1">
               <div>ARV × 70% = {arvNum > 0 ? fmt(arvNum * 0.7) : "—"}</div>
               <div>− Repairs = {repairsNum > 0 ? fmt(repairsNum) : "$0"}</div>
               <div>− Fee ({feeNum}%) = {feeAmount > 0 ? fmt(feeAmount) : "$0"}</div>
@@ -370,19 +374,19 @@ function SfrMode() {
       </div>
 
       {analyzeError && (
-        <div className="rounded-xl border border-red-800 bg-red-950/40 px-5 py-4 text-sm text-red-300">
+        <div className="rounded-lg border border-[#dc2626] bg-[#fee2e2] px-5 py-4 text-sm text-[#dc2626]">
           Analysis failed: {analyzeError}
         </div>
       )}
       {analysis && <AnalysisPanel analysis={analysis} />}
 
       {/* Comparables */}
-      <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 space-y-4">
-        <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">
+      <div className="rounded-lg border border-[#e5e5e5] bg-white p-6 space-y-2 shadow-sm">
+        <h2 className="text-xs font-bold text-[#1a1a1a] uppercase tracking-wider">
           Comparable Properties
-          <span className="ml-2 font-normal text-slate-500 normal-case">— single-family leads</span>
+          <span className="ml-2 font-normal text-[#666666] normal-case">— single-family leads</span>
         </h2>
-        <div className="divide-y divide-slate-800">
+        <div className="divide-y divide-[#e5e5e5]">
           {comparables.map((comp) => <CompRow key={comp.id} lead={comp} />)}
         </div>
       </div>
@@ -507,8 +511,8 @@ function MfMode() {
       <LeadPicker leads={mfLeads} value={selectedLeadId} onSelect={selectLead} onClear={clearLead} />
 
       {/* Inputs */}
-      <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 space-y-5">
-        <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">Deal Inputs</h2>
+      <div className="rounded-lg border border-[#e5e5e5] bg-white p-6 space-y-5 shadow-sm">
+        <h2 className="text-xs font-bold text-[#1a1a1a] uppercase tracking-wider">Deal Inputs</h2>
         <InputField label="Property Address" value={address} onChange={selectedLeadId ? undefined : setAddress} readOnly={!!selectedLeadId} />
         <div className="grid grid-cols-2 gap-4">
           <InputField label="Gross Annual Income" value={grossIncome} onChange={setGrossIncome} prefix="$" />
@@ -518,14 +522,14 @@ function MfMode() {
         </div>
         {/* Calculated NOI preview */}
         {grossIncomeNum > 0 && (
-          <div className="rounded-lg bg-slate-800/60 border border-slate-700 px-4 py-3 flex items-center justify-between">
-            <div className="text-xs text-slate-400 space-y-0.5">
+          <div className="rounded-md border border-[#e5e5e5] bg-[#f4f5f7] px-4 py-3 flex items-center justify-between">
+            <div className="text-xs text-[#666666] font-mono space-y-0.5">
               <div>{fmt(grossIncomeNum)} gross income</div>
               <div>− {fmt(operatingExpenses)} expenses ({expenseRatioDisplay}%)</div>
             </div>
             <div className="text-right">
-              <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">NOI</p>
-              <p className={`text-xl font-bold ${noi >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+              <p className="text-xs text-[#666666] uppercase tracking-wider mb-0.5">NOI</p>
+              <p className={`text-xl font-mono font-bold ${noi >= 0 ? "text-[#085e2d]" : "text-[#dc2626]"}`}>
                 {fmt(noi)}
               </p>
             </div>
@@ -534,27 +538,27 @@ function MfMode() {
       </div>
 
       {/* Investment Analysis */}
-      <div className="rounded-xl border border-emerald-800 bg-slate-900 p-6">
+      <div className="rounded-lg border-2 border-[#085e2d] bg-white p-6 shadow-sm">
         <div className="flex items-start justify-between gap-6">
           <div className="space-y-4 flex-1">
             <div>
-              <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Investment Analysis</p>
-              <p className="text-xs text-slate-500 mb-3">ARV = NOI ÷ Cap Rate</p>
-              <p className={`text-4xl font-bold ${noi >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+              <p className="text-xs text-[#666666] uppercase tracking-wider mb-1">Investment Analysis</p>
+              <p className="text-xs text-[#666666] mb-3">ARV = NOI ÷ Cap Rate</p>
+              <p className={`text-4xl font-mono font-bold ${noi >= 0 ? "text-[#085e2d]" : "text-[#dc2626]"}`}>
                 {grossIncomeNum > 0 ? fmt(noi) : "—"}
               </p>
-              <p className="text-xs text-slate-500 mt-1">Net Operating Income / year</p>
+              <p className="text-xs text-[#666666] mt-1">Net Operating Income / year</p>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2">
-                <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">ARV @ {capRate}% Cap</p>
-                <p className="text-slate-100 font-semibold text-sm">
+              <div className="rounded-md border border-[#e5e5e5] bg-[#f4f5f7] px-3 py-2">
+                <p className="text-xs text-[#666666] uppercase tracking-wider mb-0.5">ARV @ {capRate}% Cap</p>
+                <p className="text-[#1a1a1a] font-mono font-medium text-sm">
                   {arvAtCapRate > 0 ? fmt(arvAtCapRate) : "—"}
                 </p>
               </div>
-              <div className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2">
-                <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">Spread (ARV − Purchase)</p>
-                <p className={`font-semibold text-sm ${spread >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+              <div className="rounded-md border border-[#e5e5e5] bg-[#f4f5f7] px-3 py-2">
+                <p className="text-xs text-[#666666] uppercase tracking-wider mb-0.5">Spread (ARV − Purchase)</p>
+                <p className={`font-mono font-medium text-sm ${spread >= 0 ? "text-[#085e2d]" : "text-[#dc2626]"}`}>
                   {arvAtCapRate > 0 && purchaseNum > 0 ? fmt(spread) : "—"}
                 </p>
               </div>
@@ -571,26 +575,26 @@ function MfMode() {
         <StatCard label="Gross Annual Income" value={grossIncomeNum > 0 ? fmt(grossIncomeNum) : "—"} />
         <StatCard label="Operating Expenses" value={operatingExpenses > 0 ? fmt(operatingExpenses) : "—"} />
         <StatCard label="NOI" value={grossIncomeNum > 0 ? fmt(noi) : "—"} accent={noi > 0} />
-        <StatCard label={`Expense Ratio`} value={grossIncomeNum > 0 ? `${expenseRatioDisplay}%` : "—"} />
+        <StatCard label="Expense Ratio" value={grossIncomeNum > 0 ? `${expenseRatioDisplay}%` : "—"} />
       </div>
 
       {analyzeError && (
-        <div className="rounded-xl border border-red-800 bg-red-950/40 px-5 py-4 text-sm text-red-300">
+        <div className="rounded-lg border border-[#dc2626] bg-[#fee2e2] px-5 py-4 text-sm text-[#dc2626]">
           Analysis failed: {analyzeError}
         </div>
       )}
       {analysis && <AnalysisPanel analysis={analysis} label="AI Analysis — Multifamily" />}
 
       {/* Comparables */}
-      <div className="rounded-xl border border-slate-700 bg-slate-900 p-6 space-y-4">
-        <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">
+      <div className="rounded-lg border border-[#e5e5e5] bg-white p-6 space-y-2 shadow-sm">
+        <h2 className="text-xs font-bold text-[#1a1a1a] uppercase tracking-wider">
           Comparable Properties
-          <span className="ml-2 font-normal text-slate-500 normal-case">— multifamily leads</span>
+          <span className="ml-2 font-normal text-[#666666] normal-case">— multifamily leads</span>
         </h2>
         {comparables.length === 0 ? (
-          <p className="text-sm text-slate-500">No multifamily comparables found.</p>
+          <p className="text-sm text-[#666666]">No multifamily comparables found.</p>
         ) : (
-          <div className="divide-y divide-slate-800">
+          <div className="divide-y divide-[#e5e5e5]">
             {comparables.map((comp) => <CompRow key={comp.id} lead={comp} />)}
           </div>
         )}
@@ -605,34 +609,34 @@ export default function UnderwritingPage() {
   const [mode, setMode] = useState<"sfr" | "multifamily">("sfr");
 
   return (
-    <main className="flex-1 min-h-screen bg-[#0F0F0F] text-slate-100 p-8">
+    <main className="flex-1 min-h-screen bg-white text-[#1a1a1a] p-8">
       <div className="max-w-4xl mx-auto space-y-8">
 
         {/* Header + Mode Toggle */}
         <div className="flex items-end justify-between">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight">Underwriting</h1>
-            <p className="mt-1 text-sm text-slate-400">
+            <h1 className="text-[28px] font-bold tracking-tight text-[#1a1a1a]">Underwriting</h1>
+            <p className="mt-1 text-sm text-[#666666]">
               Select a lead to pre-fill, or enter values manually.
             </p>
           </div>
-          <div className="flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-900 p-1">
+          <div className="flex items-center gap-1 rounded-md border border-[#e5e5e5] bg-white p-1 shadow-sm">
             <button
               onClick={() => setMode("sfr")}
-              className={`px-4 py-1.5 rounded-md text-sm font-medium transition ${
+              className={`px-4 py-2 rounded-md text-sm font-medium transition ${
                 mode === "sfr"
-                  ? "bg-emerald-600 text-white"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#085e2d] text-white"
+                  : "text-[#666666] hover:text-[#1a1a1a]"
               }`}
             >
               SFR
             </button>
             <button
               onClick={() => setMode("multifamily")}
-              className={`px-4 py-1.5 rounded-md text-sm font-medium transition ${
+              className={`px-4 py-2 rounded-md text-sm font-medium transition ${
                 mode === "multifamily"
-                  ? "bg-emerald-600 text-white"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-[#085e2d] text-white"
+                  : "text-[#666666] hover:text-[#1a1a1a]"
               }`}
             >
               Multifamily
