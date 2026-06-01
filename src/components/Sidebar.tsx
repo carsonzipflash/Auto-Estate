@@ -26,8 +26,8 @@ export default function Sidebar() {
               href={href}
               className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 active
-                  ? "bg-neutral-700 text-white"
-                  : "text-neutral-400 hover:bg-neutral-800 hover:text-white"
+                  ? "bg-emerald-900/50 text-emerald-300 border-l-2 border-emerald-500"
+                  : "text-neutral-400 hover:bg-neutral-800 hover:text-white border-l-2 border-transparent"
               }`}
             >
               {label}
